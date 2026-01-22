@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Background Image with GIF</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body class="index">
+    <div class="homePage-container">
+        <img src="./assets/projectImages/bloodshedLogo.png" class="logo" />
+        <img src="./assets/gifs/flames.gif" alt="GIF on top" class="flames" style="mix-blend-mode: lighten;" />
+
+        <div class="menuOptions">
+            <a href="./core.html" class="menuButton">START</a>
+
+            <!-- BOTÓN MUTE -->
+            <button class="muteButton" id="muteBtn">
+                <img id="muteIcon" src="./assets/sounds/kumite-music.mp3" alt="">
+            </button>
+
+            <!-- MÚSICA -->
+            <audio id="music" src="./assets/sounds/kumite-music.mp3" loop></audio>
+
+            <div class="trainingHallFameButtonDiv">
+                <a href="./trainingZone.html" class="menuButton">TRAINING ZONE</a>
+                <a href="hallFame.html" class="menuButton">HALL OF FAME</a>
+            </div>
+
+            <div id="textoMovimiento">
+                <p>
+                    Insert coin to start
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Not sure yet? Go to training zone
+                </p>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- SCRIPT -->
+    <script src="Musica.js"></script>
+</body>
+
+</html>

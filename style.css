@@ -1,0 +1,533 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+:root {
+    --brown: #5E1800;
+    --red: #AB1F04;
+    --yellow: #F1BC29;
+    --darkYellow: #E17E00;
+    --darkBrown: #150400;
+}
+
+/*INDEX.HTML styles ///////////////////////////////////////////////////////////////////////////////////////////////////*/
+body {
+    font-family: "Press Start 2P", monospace;
+}
+
+
+body.index {
+
+    overflow-y: hidden;
+    overflow-x: hidden;
+
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    background-image: url(./assets/background/menuBackground.png);
+    /* Replace with your background image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100dvh;
+    width: 100dvw;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.homePage-container {
+    position: relative;
+    width: 100dvw;
+    height: 100dvh;
+
+}
+
+.homePage-container .logo {
+    display: flex;
+    flex-direction: row;
+    justify-self: center;
+    align-self: center;
+
+    max-width: 100%;
+    height: clamp(25dvh, 48dvh, 50dvh);
+    margin-top: 0;
+    z-index: 10;
+    position: relative;
+}
+
+
+.homePage-container .flames {
+    display: flex;
+    position: absolute;
+    flex-direction: column;
+    width: 100dvw;
+    height: 100dvh;
+    bottom: -5px;
+    mix-blend-mode: lighten;
+}
+
+.menuOptions {
+    position: absolute;
+    display: flex;
+    justify-self: center;
+    padding: 2dvh;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: clamp(6px, 12px, 16px);
+
+    border: 5px solid var(--darkYellow);
+    background-image: linear-gradient(var(--red), var(--darkBrown));
+    margin-top: -6dvh;
+    font-family: "Press Start 2P", monospace;
+}
+
+.muteButton,
+.unmuteButton {
+    display: flex;
+    position: absolute;
+    right: clamp(0.5rem, 1.6rem, 2rem);
+    top: clamp(0.5rem, 1rem, 2rem);
+
+    width: clamp(35px, 50px, 60px);
+    height: clamp(35px, 50px, 60px);
+
+    justify-content: center;
+    align-items: center;
+    padding: clamp(6px, 10px, 14px);
+    border-radius: 50%;
+    font-weight: bolder;
+    color: var(--yellow);
+    border: 5px solid var(--darkYellow);
+    cursor: pointer;
+}
+
+.muteButton {
+    background: linear-gradient(var(--darkBrown), var(--red));
+}
+
+.unmuteButton {
+    background: linear-gradient(var(--red), var(--darkBrown));
+}
+
+.muteButton:hover,
+.unmuteButton:hover {
+    transform: scale(1.05);
+    background-color: var(--red);
+    color: var(--yellow);
+}
+
+.trainingHallFameButtonDiv {
+    display: flex;
+    gap: 1rem;
+}
+
+
+.menuOptions .menuButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 1px;
+
+    height: clamp(10dvh, 12dvh, 12dvh);
+    width: clamp(20dvh, 30dvh, 35dvh);
+
+    padding: min(2rem, 5%);
+    font-weight: bolder;
+    color: var(--yellow);
+    background: linear-gradient(var(--red), var(--darkBrown));
+    border: 5px solid var(--darkYellow);
+    font-family: "Press Start 2P", monospace;
+    cursor: pointer;
+    text-decoration: none;
+
+}
+
+
+.menuOptions .menuButton:hover {
+    transform: scale(1.05);
+    border: 5px solid var(--yellow);
+    background-color: linear-gradient(var(--darkYellow), var(--red));
+    background-color: var(--red);
+    color: var(--yellow);
+}
+
+
+
+#textoMovimiento {
+    width: clamp(250px, 65dvw, 650px);
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+
+    margin-top: 10px;
+    font-size: clamp(10px, 1.2rem, 1.6rem);
+    font-weight: bolder;
+}
+
+#textoMovimiento p {
+    display: inline-block;
+    padding-left: 100%;
+    animation: scrollText 12s linear infinite;
+    text-shadow: 2px 2px var(--darkBrown);
+    color: var(--yellow);
+}
+
+
+@keyframes scrollText {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
+}
+
+
+@media (max-width: 480px) {
+    .menuOptions {
+        width: 95dvw;
+    }
+
+    .trainingHallFameButtonDiv {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .homePage-container .logo {
+        width: 100dvw;
+        height: 50dvh;
+    }
+
+
+    .muteButton,
+    .unmuteButton {
+        right: 3px;
+        top: 3px;
+        scale: 0.8rem;
+    }
+
+}
+
+/*TRAININGZONE.HTML styles ///////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+ body.trainingZone {
+     position: relative;
+     overflow-y: hidden;
+     overflow-x: hidden;
+ 
+     display: flex;
+     flex-direction: column;
+     margin: 0;
+     padding: 0;
+     height: 100dvh;
+     width: 100dvw;
+ 
+     justify-content: center;
+     align-items: center;
+ }
+ 
+ .trainingZoneBackground
+ {
+     height: 100dvh;
+     width: 100dvw;
+ }
+ 
+ .trainingCharacterSpace,
+ .playerCharacterSpace {
+     position: absolute;
+ 
+     height: clamp(40dvh, 60dvh, 70dvh);
+     display: flex;
+     align-items: center;
+ }
+ 
+ 
+ .trainingCharacterSpace {
+     right: clamp(5dvw, 10dvw, 15dvw);
+     bottom: clamp(3dvh, 5dvh, 8dvh);
+     width: clamp(20dvw, 25dvw, 35dvw);
+     justify-content: flex-end;
+ }
+ 
+ .playerCharacterSpace {
+     left: clamp(5dvw, 10dvw, 15dvw);
+     bottom: clamp(3dvh, 5dvh, 8dvh);
+     width: clamp(35dvw, 45dvw, 55dvw);
+     justify-content: flex-start;
+ }
+ 
+ .roshiSprite {
+     position: absolute;
+     bottom: 0;
+     height: clamp(25dvh, 40dvh, 50dvh);
+ }
+ 
+ .dungeonFighterSprite {
+     position: absolute;
+     bottom: 0;
+     height: clamp(35dvh, 55dvh, 60dvh);
+ }
+ 
+ .dungeonFighterSprite:nth-child(2) {
+     left: clamp(-18dvw, -10dvw, -20dvw);
+ }
+ 
+ .speechBubble {
+     position: absolute;
+     height: clamp(15dvh, 20dvh, 25dvh);
+ 
+     bottom: clamp(20dvh, 30dvh, 35dvh);
+     left: clamp(5%, 10%, 15%);
+     transform: translateX(-20%);
+ }
+ 
+ 
+ @media (max-width: 768px) {
+ 
+     .trainingCharacterSpace,
+     .playerCharacterSpace {
+         height: clamp(30dvh, 45dvh, 50dvh);
+     }
+ 
+     .trainingCharacterSpace {
+         width: 40dvw;
+         right: 5dvw;
+     }
+ 
+     .playerCharacterSpace {
+         width: 45dvw;
+         left: 5dvw;
+     }
+ 
+     .speechBubble {
+         bottom: 22dvh;
+         left: 10%;
+         height: 16dvh;
+         transform: translateX(-15%);
+     }
+ 
+     .roshiSprite {
+         height: 30dvh;
+     }
+ 
+     .dungeonFighterSprite {
+         height: 40dvh;
+     }
+ }
+ 
+ @media (max-width: 480px) {
+
+    .trainingZoneBackground {
+        /* height: 100dvh;
+        width: 100dvw; */
+        object-fit: cover;
+    }
+
+    .trainingCharacterSpace,
+    .playerCharacterSpace {
+        height: 25dvh;
+    }
+
+    .trainingCharacterSpace {
+        width: 35dvw;
+        right: -10dvw;  
+    }
+
+    .playerCharacterSpace {
+        width: 40dvw;
+        left: -14dvw;
+        bottom: -2dvw;    
+    }
+
+    .speechBubble {
+        bottom: 18dvh;
+        left: -90%;    
+        height: 14dvh;
+        transform: translateX(-10%);
+    }
+
+    .roshiSprite {
+        height: 25dvh;
+    }
+
+    .dungeonFighterSprite {
+        height: 35dvh;
+    }
+}
+ 
+
+/*HALLFAME.HTML styles ///////////////////////////////////////////////////////////////////////////////////////////////////*/
+/*YA eS RESPONSIVE, NO AÑADIR @MEDIAS*/
+body.hallFame {
+    overflow: hidden;
+
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    height: 100svh;
+    width: 100svw;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.hallFameBackground {
+    height: 100%;
+    width: 100%;
+}
+
+
+
+/*GAME.HTML styles*/
+body.gameGround {
+    overflow-y: hidden;
+    overflow-x: hidden;
+
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    height: 100dvh;
+    width: 100dvw;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.gameBackground {
+    height: 100%;
+    width: 100%;
+}
+
+.gameRecord {
+    position: absolute;
+    top: 2dvh;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    width: 95vw;
+    gap: px;
+    height: clamp(10px, 1   5dvh, 40dvh);
+}
+
+.gameGround .playerCharacterSpace   
+{
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 10;
+    width: 100dvw;
+
+    height: auto;
+
+}
+
+.gameGround .playerCharacterSpace .dungeonFighterSprite:first-child
+{
+    margin-left: -40vw;
+    filter: drop-shadow(0px 0 25px var(--yellow));
+
+}
+
+.gameGround .playerCharacterSpace .dungeonFighterSprite:nth-child(2)
+{
+    transform: scaleX(-1);
+    margin-left: 40vw;
+
+    filter: drop-shadow(0px 0 25px white);
+}
+
+
+.lifeContainer {
+    width: clamp(400px, 42vw, 45dvw);
+    height: clamp(30px, 28dvh, 6dvh);
+    position: relative;
+    background: #333;
+    border: 3px solid black;
+    border-radius: 8px;
+
+    overflow: hidden;
+}
+
+.lifeBar {
+    height: 100%;
+    width: 100%;
+    transition: width 0.25s linear;
+    position: absolute;
+    top: 0;
+}
+
+.leftLife .lifeBar {
+
+    background: linear-gradient(var(--red), var(--yellow));
+
+    clip-path: polygon(
+        0 0,   
+        15% 100%, 
+        100% 100%, 
+        100% 0     
+    );
+}
+
+.rightLife .lifeBar {
+
+    background: linear-gradient(blue, lightblue);
+
+    clip-path: polygon(
+        0 0,      
+        100% 0,   
+        85% 100%, 
+        0 100%  
+    );
+}
+
+.timer {
+    font-family: "Press Start 2P", monospace;
+    font-size: clamp(14px, 2vw, 24px);
+    color: white;
+    padding: 1rem 1.5rem;
+    background-color: black;
+    border: 2px solid white;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* CORE.HTML */
+
+* {
+            box-sizing: border-box;
+}
+
+        html,
+        body.core {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: black;
+        }
+
+        canvas {
+            display: block;
+        }
