@@ -30,6 +30,62 @@ class Background {
     }
 }
 
+// NUEVA CLASE PARA FONDOS ANIMADOS
+class AnimatedBackground {
+    constructor({ position, imagesArray, framesHold = 10 }) {
+        this.position = position
+        this.images = []
+        this.framesCurrent = 0
+        this.framesElapsed = 0
+        this.framesHold = framesHold
+
+        // Cargar todas las imágenes
+        imagesArray.forEach(src => {
+            const img = new Image()
+            img.src = src
+            this.images.push(img)
+        })
+
+        this.currentImage = this.images[0]
+    }
+
+    draw() {
+        if (!this.currentImage || !this.currentImage.complete) return
+
+        const scale = Math.max(
+            canvas.width / this.currentImage.width,
+            canvas.height / this.currentImage.height
+        )
+
+        const width = this.currentImage.width * scale
+        const height = this.currentImage.height * scale
+
+        const x = (canvas.width - width) / 2
+        const y = (canvas.height - height) / 2
+
+        c.drawImage(this.currentImage, x, y, width, height)
+    }
+
+    animateFrames() {
+        this.framesElapsed++
+
+        if (this.framesElapsed % this.framesHold === 0) {
+            if (this.framesCurrent < this.images.length - 1) {
+                this.framesCurrent++
+            } else {
+                this.framesCurrent = 0
+            }
+
+            this.currentImage = this.images[this.framesCurrent]
+        }
+    }
+
+    update() {
+        this.draw()
+        this.animateFrames()
+    }
+}
+
 class Sprite {
     constructor({
         position,
@@ -37,7 +93,8 @@ class Sprite {
         scale = 1,
         framesMax = 1,
         offset = { x: 0, y: 0 },
-        imagesArray = []
+        imagesArray = [],
+        facing = 'right'
     }) {
         this.position = position
         this.width = 50
@@ -50,7 +107,7 @@ class Sprite {
         this.framesElapsed = 0
         this.framesHold = 5
         this.offset = offset
-        this.facing = 'right'
+        this.facing = facing
 
         this.images = imagesArray.map(src => {
             const img = new Image()
@@ -58,7 +115,7 @@ class Sprite {
             return img
         })
 
-        // Per defecte usem la primera
+        // Por defecto usamos la primera
         this.image = this.images[0] || new Image()
         if (!imagesArray.length) this.image.src = imageSrc
     }
@@ -67,22 +124,22 @@ class Sprite {
         c.save()
 
         if (this.facing === 'left') {
-            // Calculem l'amplada real d'un frame multiplicada per l'escala
+            // Calculamos el ancho real de un frame multiplicado por la escala
             const frameWidth = (this.image.width / this.framesMax) * this.scale
 
-            // El truc del mirall: movem el context al centre del personatge i invertim l'eix X
+            // Truco del espejo: movemos el context al centro del personaje e invertimos el eje X
             c.translate(this.position.x + frameWidth / 2 - this.offset.x, 0)
             c.scale(-1, 1)
 
             c.drawImage(
                 this.image,
-                -frameWidth / 2, // Dibuixem centrat respecte al translate
+                -frameWidth / 2, // Dibujamos centrado respecto al translate
                 this.position.y - this.offset.y,
                 this.image.width * this.scale,
                 this.image.height * this.scale
             )
         } else {
-            // Dibuix normal a la dreta
+            // Dibujo normal a la derecha
             c.drawImage(
                 this.image,
                 this.position.x - this.offset.x,
@@ -98,7 +155,7 @@ class Sprite {
 
     animateFrames() {
         this.framesElapsed++
-        
+
 
         if (this.framesElapsed % this.framesHold === 0) {
             if (this.framesCurrent < this.framesMax - 1) {
@@ -130,24 +187,29 @@ class Fighter extends Sprite {
         scale = 1,
         framesMax = 1,
         sprites,
-        attackBox = { offset: {}, width: undefined, height: undefined }
+        attackBox = { offset: {}, width: undefined, height: undefined },
+        facing = 'right'
     }) {
         super({
             position,
             imageSrc,
             scale,
             framesMax,
-            offset
+            offset,
+            facing
         })
         this.velocity = velocity
-        this.width = 50
-        this.height = 150
+        this.width = 150
+        this.height = 200
         this.lastKey
         this.attackBox = {
-            position: { x: this.position.x, y: this.position.y },
+            position: {
+                x: this.position.x,
+                y: this.position.y
+            },
             offset: attackBox.offset || { x: 0, y: 0 },
-            width: attackBox.width || 100,
-            height: attackBox.height || 50
+            width: attackBox.width || 150,
+            height: attackBox.height || 150
         }
         this.color = color
         this.isAttacking = false
@@ -157,6 +219,7 @@ class Fighter extends Sprite {
         this.framesHold = 10
         this.sprites = sprites
         this.dead = false
+        this.hasDealtDamage = false
 
         for (const sprite in this.sprites) {
             this.sprites[sprite].imageObjects = this.sprites[sprite].imagesArray.map(src => {
@@ -167,6 +230,10 @@ class Fighter extends Sprite {
         }
     }
 
+    attack() {
+        this.isAttacking = true
+    }
+
     switchSprite(sprite) {
         // EN LA ACTUAL SPRITE, NO REINICIAR
         if (this.currentSprite === sprite) return
@@ -175,7 +242,7 @@ class Fighter extends Sprite {
         if (
             this.currentSprite === 'hit' &&
             this.framesCurrent < this.sprites.hit.framesMax - 1
-        
+
         ) return
 
         // Actualitzem l'estat
@@ -185,31 +252,27 @@ class Fighter extends Sprite {
         this.framesCurrent = 0
 
         if (sprite === 'hit') {
-            this.framesHold = 4 // Muy rápido para el ataque
+            this.framesHold = 4
+            this.hasDealtDamage = false
         } else if (sprite === 'walk') {
-            this.framesHold = 8 // Velocidad media
+            this.framesHold = 8
         } else {
-            this.framesHold = 35 // Idle más tranquilo
+            this.framesHold = 35
         }
     }
 
     update() {
-        if (this.position.x < enemy.position.x) {
-            this.facing = 'right'
-        } else {
-            this.facing = 'left'
-        }
-
         this.draw()
         if (!this.dead) this.animateFrames()
 
+        // Actualizar posición de attackBox
         this.attackBox.position.x = this.position.x + this.attackBox.offset.x
         this.attackBox.position.y = this.position.y + this.attackBox.offset.y
 
         this.position.x += this.velocity.x
         this.position.y += this.velocity.y
 
-        // Terra (ajustat a la teva arena)
+        // Terra (ajustado a la arena)
         if (this.position.y + this.height + this.velocity.y >= canvas.height - 60) {
             this.velocity.y = 0
             this.position.y = canvas.height - 60 - this.height

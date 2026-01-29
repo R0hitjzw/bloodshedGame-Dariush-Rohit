@@ -28,12 +28,21 @@ c.fillRect(0, 0, canvas.width, canvas.height)
 
 const gravity = 0.7
 
-const background = new Background({
+// FONDO ANIMADO CON 6 FRAMES
+const background = new AnimatedBackground({
     position: {
         x: 0,
         y: 0
     },
-    imageSrc: './assets/background/snakeThroneArena.webp'
+    imagesArray: [
+        './assets/background/trainingZone-fragmentado/fondo-fragmentado-1.png',
+        './assets/background/trainingZone-fragmentado/fondo-fragmentado-2.png',
+        './assets/background/trainingZone-fragmentado/fondo-fragmentado-3.png',
+        './assets/background/trainingZone-fragmentado/fondo-fragmentado-4.png',
+        './assets/background/trainingZone-fragmentado/fondo-fragmentado-5.png',
+        './assets/background/trainingZone-fragmentado/fondo-fragmentado-6.png'
+    ],
+    framesHold: 10  // Ajusta este número para controlar la velocidad (más alto = más lento)
 })
 
 const player = new Fighter({
@@ -183,13 +192,11 @@ const keys = {
     }
 }
 
-decreaseTimer()
-
 function animate() {
     window.requestAnimationFrame(animate)
     c.fillStyle = 'black'
     c.fillRect(0, 0, canvas.width, canvas.height)
-    background.update();
+    background.update(); // El fondo ahora se anima automáticamente
     player.update()
     enemy.update()
 
@@ -224,40 +231,6 @@ function animate() {
         enemy.switchSprite('walk')
     } else {
         enemy.switchSprite('idle')
-    }
-
-    // detectar colision
-    if (
-        rectangularCollision({
-            rectangle1: player,
-            rectangle2: enemy
-        }) &&
-        player.isAttacking &&
-        !player.hasDealtDamage
-    ) {
-        console.log('💥 PLAYER HIT ENEMY!')
-        enemy.health -= 20
-        document.querySelector('#enemyHealth').style.width = enemy.health + '%'
-        player.hasDealtDamage = true
-    }
-
-    if (
-        rectangularCollision({
-            rectangle1: enemy,
-            rectangle2: player
-        }) &&
-        enemy.isAttacking &&
-        !enemy.hasDealtDamage
-    ) {
-        console.log('💥 ENEMY HIT PLAYER!')
-        player.health -= 20
-        document.querySelector('#playerHealth').style.width = player.health + '%'
-        enemy.hasDealtDamage = true
-    }
-
-    // fin del juego basado en la vida
-    if (enemy.health <= 0 || player.health <= 0) {
-        determineWinner({ player, enemy, timerId })
     }
 }
 

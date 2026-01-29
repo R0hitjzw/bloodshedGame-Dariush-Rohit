@@ -1,20 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>TRAINING ZONE</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="trainingZone">
-    <img src="./assets/background/trainingZoneGif.gif" alt="trainingZoneBackground" class="trainingZoneBackground">
-    <div class="trainingCharacterSpace">
-        <img src="./assets/sprites/pixelSppechBubbleHelloCompis.gif" class="speechBubble" alt="">
-        <img src="./assets/sprites/roshiSingleFrameSprite.png" class="roshiSprite" alt="">
+
+<body class="core">
+    <!-- red container div -->
+    <div style="position: relative; display: inline-block">
+        <canvas></canvas>
     </div>
-    <div class="playerCharacterSpace">
-        <img src="./assets/sprites/012-spriteSample2ndCharacter.png" class="dungeonFighterSprite">
-        <img src="./assets/sprites/012-spriteSample.png" class="dungeonFighterSprite">
-    </div>
+
+    <!-- AUDIO DEL JUEGO -->
+    <audio id="music" src="./assets/sounds/kumite-music.mp3" loop></audio>
+
+    <!-- SCRIPTS -->
+    <script src="./components.js"></script>
+    <script src="./clases.js"></script>
+    <script src="./trainingzone.js"></script>
 </body>
+
 </html>
