@@ -42,7 +42,7 @@ const background = new AnimatedBackground({
         './assets/background/trainingZone-fragmentado/fondo-fragmentado-5.png',
         './assets/background/trainingZone-fragmentado/fondo-fragmentado-6.png'
     ],
-    framesHold: 10  // Ajusta este número para controlar la velocidad (más alto = más lento)
+    framesHold: 10 
 })
 
 const player = new Fighter({
@@ -196,7 +196,7 @@ function animate() {
     window.requestAnimationFrame(animate)
     c.fillStyle = 'black'
     c.fillRect(0, 0, canvas.width, canvas.height)
-    background.update(); // El fondo ahora se anima automáticamente
+    background.update(); 
     player.update()
     enemy.update()
 

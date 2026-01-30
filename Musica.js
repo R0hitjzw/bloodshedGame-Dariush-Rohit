@@ -35,15 +35,12 @@ if (hallImage) {
     const audioMomo = new Audio('./assets/sounds/me-llama-momo.mp3');
 
     hallImage.addEventListener("click", (event) => {
-        // Usamos offsetX y offsetY como indica la captura de tu profe
         const anchoTotal = hallImage.clientWidth;
         const altoTotal = hallImage.clientHeight;
 
         // Calculamos porcentaje relativo a la imagen
         const xPct = (event.offsetX / anchoTotal) * 100;
         const yPct = (event.offsetY / altoTotal) * 100;
-
-        console.log(`X: ${xPct.toFixed(2)}%, Y: ${yPct.toFixed(2)}%`);
 
         // TERCER CUADRO (Momo)
         // Rangos ajustados basados en tus coordenadas previas
