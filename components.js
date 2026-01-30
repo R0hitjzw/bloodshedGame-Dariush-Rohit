@@ -13,13 +13,19 @@ function rectangularCollision({ rectangle1, rectangle2 }) {
 
 function determineWinner({ player, enemy, timerId }) {
     clearTimeout(timerId)
-    document.querySelector('#displayText').style.display = 'flex'
+    const ui = document.querySelector('#gameOverUI')
+    const text = document.querySelector('#winnerName')
+    
+    setTimeout(() => {
+        ui.style.display = 'flex'
+    }, 1000)
+
     if (player.health === enemy.health) {
-        document.querySelector('#displayText').innerHTML = 'Empate'
+        text.innerHTML = 'Empate'
     } else if (player.health > enemy.health) {
-        document.querySelector('#displayText').innerHTML = 'Jugador 1 gana'
-    } else if (player.health < enemy.health) {
-        document.querySelector('#displayText').innerHTML = 'Jugador 2 gana'
+        text.innerHTML = 'PLAYER 1 WINS'
+    } else {
+        text.innerHTML = 'PLAYER 2 WINS'
     }
 }
 

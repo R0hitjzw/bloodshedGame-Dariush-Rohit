@@ -129,6 +129,27 @@ body.index {
     gap: 1rem;
 }
 
+.menuButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 1px;
+
+    height: clamp(10dvh, 12dvh, 12dvh);
+    width: clamp(20dvh, 30dvh, 35dvh);
+
+    padding: min(2rem, 5%);
+    font-weight: bolder;
+    color: var(--yellow);
+    background: linear-gradient(var(--red), var(--darkBrown));
+    border: 5px solid var(--darkYellow);
+    font-family: "Press Start 2P", monospace;
+    cursor: pointer;
+    text-decoration: none;
+
+}
+
 
 .menuOptions .menuButton {
     display: flex;

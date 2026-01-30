@@ -32,7 +32,7 @@ class Background {
 
 // NUEVA CLASE PARA FONDOS ANIMADOS
 class AnimatedBackground {
-    constructor({ position, imagesArray, framesHold = 10 }) {
+    constructor({ position, imagesArray, framesHold = 15 }) {
         this.position = position
         this.images = []
         this.framesCurrent = 0
@@ -116,12 +116,20 @@ class Sprite {
         })
 
         // Por defecto usamos la primera
-        this.image = this.images[0] || new Image()
-        if (!imagesArray.length) this.image.src = imageSrc
+        this.image = new Image()
+        if (imagesArray.length > 0) {
+            this.image = this.images[0]
+        } else {
+            this.image.src = imageSrc
+        }
     }
 
     draw() {
+
+        
+        if (!this.image || !this.image.complete || this.image.width === 0) return
         c.save()
+
 
         if (this.facing === 'left') {
             // Calculamos el ancho real de un frame multiplicado por la escala
@@ -154,21 +162,24 @@ class Sprite {
 
 
     animateFrames() {
-        this.framesElapsed++
+    this.framesElapsed++
+    if (this.framesElapsed % this.framesHold === 0) {
+        // SI ÉS L'ANIMACIÓ DE MORT I ÉS L'ÚLTIM FRAME, ATURA'T AQUÍ
+        if (this.currentSprite === 'die' && this.framesCurrent === this.framesMax - 1) {
+            return
+        }
 
-
-        if (this.framesElapsed % this.framesHold === 0) {
-            if (this.framesCurrent < this.framesMax - 1) {
-                this.framesCurrent++
-            } else {
-                this.framesCurrent = 0
-            }
-
-            if (this.images.length > 0) {
-                this.image = this.images[this.framesCurrent]
-            }
+        if (this.framesCurrent < this.framesMax - 1) {
+            this.framesCurrent++
+        } else {
+            this.framesCurrent = 0
+        }
+        
+        if (this.images.length > 0) {
+            this.image = this.images[this.framesCurrent]
         }
     }
+}
 
     update() {
         this.draw()
@@ -216,7 +227,7 @@ class Fighter extends Sprite {
         this.health = 100
         this.framesCurrent = 0
         this.framesElapsed = 0
-        this.framesHold = 10
+        this.framesHold = 0
         this.sprites = sprites
         this.dead = false
         this.hasDealtDamage = false
@@ -235,8 +246,24 @@ class Fighter extends Sprite {
     }
 
     switchSprite(sprite) {
+
+        if (this.currentSprite === 'die') {
+        if (this.framesCurrent === this.sprites.die.framesMax - 1) this.dead = true
+        return
+    }
+
+        if (sprite === 'die') {
+        this.facing = 'right' 
+    }
+
         // EN LA ACTUAL SPRITE, NO REINICIAR
+        
         if (this.currentSprite === sprite) return
+
+        if (this.currentSprite === 'die') {
+            if (this.framesCurrent === this.sprites.die.framesMax - 1) this.dead = true
+            return
+        }
 
         // BLOQUEIG D'ATAC - NO ACABAR FINS QUE S'ACABI L'ANIMACIÓ
         if (
@@ -252,12 +279,14 @@ class Fighter extends Sprite {
         this.framesCurrent = 0
 
         if (sprite === 'hit') {
-            this.framesHold = 4
+            this.framesHold = 5
             this.hasDealtDamage = false
+        } else if (sprite === 'die') {
+            this.framesHold = 15 // Una mica més lent per la mort
         } else if (sprite === 'walk') {
-            this.framesHold = 8
+            this.framesHold = 10
         } else {
-            this.framesHold = 35
+            this.framesHold = 15
         }
     }
 

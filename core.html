@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THE BLOODSHED BEGINS !</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
 </head>
+
 <body class="core">
     <!-- red container div -->
     <div style="position: relative; display: inline-block">
@@ -63,6 +65,14 @@
             left: 0;
             display: none;">EMPATE</div>
 
+        <div id="gameOverUI"
+            style="display: none; position: absolute; color: white; align-items: center; justify-content: center; top: 0; right: 0; bottom: 0; left: 0; flex-direction: column; background: rgba(0,0,0,0.7);">
+            <h1 id="winnerName" style="font-size: 48px; margin-bottom: 20px;">JUGADOR 1 GANA</h1>
+            <button class="menuButton" onclick="window.location.href='index.html'" class="menuButton">
+                BACK TO MENU
+            </button>
+        </div>
+
         <canvas></canvas>
     </div>
 
@@ -74,4 +84,5 @@
     <script src="./clases.js"></script>
     <script src="./index.js"></script>
 </body>
+
 </html>

@@ -38,7 +38,7 @@ const background = new Background({
 
 const player = new Fighter({
     position: {
-        x: 200,
+        x: 300,
         y: 0
     },
     velocity: {
@@ -94,6 +94,17 @@ const player = new Fighter({
                 './assets/sprites/claw/hit/6.png'
             ],
             framesMax: 6
+        },
+
+        die: {
+            imagesArray: [
+                './assets/sprites/claw/die/1.png',
+                './assets/sprites/claw/die/2.png',
+                './assets/sprites/claw/die/3.png',
+                './assets/sprites/claw/die/4.png',
+                './assets/sprites/claw/die/5.png'
+            ],
+            framesMax: 5
         }
     }
 })
@@ -156,6 +167,17 @@ const enemy = new Fighter({
                 './assets/sprites/boxer/hit/6.png'
             ],
             framesMax: 6
+        },
+
+        die: {
+            imagesArray: [
+                './assets/sprites/boxer/die/1.png',
+                './assets/sprites/boxer/die/2.png',
+                './assets/sprites/boxer/die/3.png',
+                './assets/sprites/boxer/die/4.png',
+                './assets/sprites/boxer/die/5.png'
+            ],
+            framesMax: 5
         }
     }
 })
@@ -196,40 +218,56 @@ function animate() {
     player.velocity.x = 0
     enemy.velocity.x = 0
 
-    // player movement
-    if (player.currentSprite === 'hit' && player.framesCurrent < player.sprites.hit.framesMax - 1) {
-        // Si está en medio de la animación de ataque, no hacemos nada
-    } else if (keys.s.pressed) {
-        player.switchSprite('hit')
-    } else if (keys.a.pressed && player.lastKey === 'a') {
-        player.velocity.x = -5
-        player.switchSprite('walk')
-    } else if (keys.d.pressed && player.lastKey === 'd') {
-        player.velocity.x = 5
-        player.switchSprite('walk')
-    } else {
-        player.switchSprite('idle')
-    }
+    if (player.health <= 0 || enemy.health <= 0) {
+        if (player.health <= 0) {
+            player.switchSprite('die')
+            enemy.switchSprite('idle')
+        } else if (enemy.health <= 0) {
+            enemy.switchSprite('die')
+            player.switchSprite('idle') // GUANYADOR PARA MOVIMENT, TORNA IDLE
+        }
 
-    // enemy movement
-    if (enemy.currentSprite === 'hit' && enemy.framesCurrent < enemy.sprites.hit.framesMax - 1) {
-        // Bloqueo de animación de ataque
-    } else if (keys.ArrowDown.pressed) {
-        enemy.switchSprite('hit')
-    } else if (keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft') {
-        enemy.velocity.x = -5
-        enemy.switchSprite('walk')
-    } else if (keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight') {
-        enemy.velocity.x = 5
-        enemy.switchSprite('walk')
+        player.isAttacking = false
+        enemy.isAttacking = false
+
+        determineWinner({ player, enemy, timerId })
     } else {
-        enemy.switchSprite('idle')
+
+        // player movement
+        if (player.currentSprite === 'hit' && player.framesCurrent < player.sprites.hit.framesMax - 1) {
+            // SI ENMIG D'ANIMACIÓ ATAAC, NO MOURE, NO FER ALTRES ANIMACIONS
+        } else if (keys.s.pressed) {
+            player.switchSprite('hit')
+        } else if (keys.a.pressed && player.lastKey === 'a') {
+            player.velocity.x = -5 // enrere
+            player.switchSprite('walk')
+        } else if (keys.d.pressed && player.lastKey === 'd') {
+            player.velocity.x = 5 // endavant
+            player.switchSprite('walk')
+        } else {
+            player.switchSprite('idle')
+        }
+
+        // enemy movement
+        if (enemy.currentSprite === 'hit' && enemy.framesCurrent < enemy.sprites.hit.framesMax - 1) {
+            // Bloqueo de animación de ataque
+        } else if (keys.ArrowDown.pressed) {
+            enemy.switchSprite('hit')
+        } else if (keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft') {
+            enemy.velocity.x = -5
+            enemy.switchSprite('walk')
+        } else if (keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight') {
+            enemy.velocity.x = 5
+            enemy.switchSprite('walk')
+        } else {
+            enemy.switchSprite('idle')
+        }
     }
 
     // detectar colision
     if (
         rectangularCollision({
-            rectangle1: player,
+            rectangle1: player, 
             rectangle2: enemy
         }) &&
         player.isAttacking &&
@@ -255,7 +293,8 @@ function animate() {
         enemy.hasDealtDamage = true
     }
 
-    // fin del juego basado en la vida
+
+    // logica de joc qui guanya
     if (enemy.health <= 0 || player.health <= 0) {
         determineWinner({ player, enemy, timerId })
     }
